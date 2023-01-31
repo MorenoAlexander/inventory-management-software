@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Inventory_Management_Software.Data;
+using Inventory_Management_Software.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +29,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddMudServices();
+builder.Services.AddDataServices(builder.Configuration.GetConnectionString("Default") ?? "Server=(localDb)\\MSSQLLocalDB;");
 builder.Services.AddSingleton<WeatherForecastService>();
 
 var app = builder.Build();

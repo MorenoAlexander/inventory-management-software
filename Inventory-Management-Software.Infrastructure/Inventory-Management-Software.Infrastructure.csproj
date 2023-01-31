@@ -8,4 +8,12 @@
         <LangVersion>11</LangVersion>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Inventory-Management-Software.Core\Inventory-Management-Software.Core.csproj" />
+    </ItemGroup>
+
 </Project>
