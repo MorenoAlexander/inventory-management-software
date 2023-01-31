@@ -10,7 +10,7 @@ public static class ConfigureDataServices
         serviceCollection.AddDbContext<GenericIMSContext>(options =>
         {
 
-            options.UseMySQL(connectionString);
+            options.UseOracle(connectionString);
         });
     }
 }
