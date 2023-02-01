@@ -20,10 +20,15 @@
         <PackageReference Include="Microsoft.Identity.Web" Version="1.16.0" />
         <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.16.0" />
         <PackageReference Include="MudBlazor" Version="6.1.8" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Inventory-Management-Software.Infrastructure\Inventory-Management-Software.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="DTOS" />
     </ItemGroup>
 
 </Project>
