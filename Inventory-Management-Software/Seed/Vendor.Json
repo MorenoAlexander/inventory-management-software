@@ -1,0 +1,27 @@
+[
+    {
+        "Name": "Acme Inc.",
+        "Description": "A leading producer of high-quality products",
+        "Website": "https://www.acmeinc.com"
+    },
+    {
+        "Name": "Best Products",
+        "Description": "Offering a wide range of innovative and affordable products",
+        "Website": "https://www.bestproducts.com"
+    },
+    {
+        "Name": "Top Tech",
+        "Description": "Innovative technology products for modern consumers",
+        "Website": "https://www.toptech.com"
+    },
+    {
+        "Name": "Global Goods",
+        "Description": "Sourcing and delivering products from around the world",
+        "Website": "https://www.globalgoods.com"
+    },
+    {
+        "Name": "Prime Provisions",
+        "Description": "High-quality products for homes, businesses, and more",
+        "Website": "https://www.primeprovisions.com"
+    }
+]
