@@ -11,7 +11,9 @@ public class ProductCategoryConfig : IEntityTypeConfiguration<ProductCategory>
     {
         builder.ToTable("ProductCategories");
         builder.Property(pc => pc.Name).HasMaxLength(256);
-        builder.HasMany<Product>(pc => pc.Products).WithOne(p => p.ProductCategory)
+
+
+        builder.HasMany(pc => pc.Products).WithOne(p => p.ProductCategory)
             .HasForeignKey(pc => pc.ProductCategoryId);
         
     }
