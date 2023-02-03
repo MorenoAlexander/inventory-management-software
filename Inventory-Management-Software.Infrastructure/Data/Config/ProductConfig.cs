@@ -10,8 +10,12 @@ public class ProductConfig : IEntityTypeConfiguration<Product>
     {
         builder.ToTable("Products");
         builder.Property(p => p.Name).HasMaxLength(256);
+        builder.Property(p => p.Description).HasMaxLength(1024);
+        builder.Property(p => p.SKU).HasMaxLength(256);
+        builder.HasIndex(p => p.SKU).IsUnique();
+
         builder.HasOne<ProductCategory>(p => p.ProductCategory).WithMany(p => p.Products)
             .HasForeignKey(p => p.ProductCategoryId);
-        
+
     }
 }
