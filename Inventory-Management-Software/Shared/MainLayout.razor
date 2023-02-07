@@ -12,14 +12,14 @@
         Generic Inventory Management Software
     </MudAppBar>
     <MudDrawer Open="@_drawerOpen">
-        
+        <NavMenu/> 
     </MudDrawer>
     <LoginDisplay/>
 
     <MudMainContent>
         <AuthorizeView>
             <Authorized>
-                <MudContainer>
+                <MudContainer MaxWidth="MaxWidth.Large">
                     @Body
                 </MudContainer>
             </Authorized>

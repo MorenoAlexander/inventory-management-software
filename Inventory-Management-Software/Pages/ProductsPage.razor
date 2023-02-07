@@ -1,0 +1,52 @@
+@page "/products"
+@using Inventory_Management_Software.Infrastructure.Repository
+@using Inventory_Management_Software.Core.Entities
+
+@inject  IEfRepository<Product> _productRepository
+@inject IDialogService DialogService;
+<h3>Products</h3>
+
+<MudPaper Class="d-flex mb-2 justify-end flex-grow-1 gap-4" Elevation="0">
+    <MudButton Variant="Variant.Outlined">NEW Product</MudButton>
+</MudPaper>
+<MudTable Items="@Elements" @bind-SelectedItem="@_selectedItem">
+    <HeaderContent>
+        <MudTh>
+            SKU
+        </MudTh>
+        <MudTh>
+            Name
+        </MudTh>
+        <MudTh>
+            Description
+        </MudTh>
+    </HeaderContent>
+    
+    <RowTemplate>
+        <MudTd DataLabel="SKU">
+            @context.SKU
+        </MudTd>
+        <MudTd>
+            @context.Name
+        </MudTd>
+        <MudTh>
+            @context.Description
+        </MudTh>
+    </RowTemplate>
+
+</MudTable>
+
+
+
+
+@code {
+    private Product _selectedItem;
+    private IEnumerable<Product> Elements { get; set; } = new List<Product>();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Elements = await _productRepository.ListAllAsync();
+    }
+    
+    
+}
