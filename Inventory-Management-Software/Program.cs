@@ -4,6 +4,7 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Inventory_Management_Software.Data;
 using Inventory_Management_Software.Infrastructure;
+using Inventory_Management_Software.Infrastructure.Data;
 using MudBlazor.Services;
 
 string swaggerBasePath = "api";
