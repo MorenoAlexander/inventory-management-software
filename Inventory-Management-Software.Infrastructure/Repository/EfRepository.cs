@@ -21,12 +21,12 @@ public class EfRepository<T> : IEfRepository<T> where T : class, new()
         return _context.Set<T>().FindAsync(id);
     }
 
-    public virtual T GetById(Guid id)
+    public virtual T? GetById(Guid id)
     {
         return _context.Set<T>().Find(id);
     }
 
-    public virtual T GetById(int id)
+    public virtual T? GetById(int id)
     {
         return _context.Set<T>().Find(id);
     }
