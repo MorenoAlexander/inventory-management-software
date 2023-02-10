@@ -1,14 +1,16 @@
 @page "/vendors"
 @using Inventory_Management_Software.Core.Entities
 @using Inventory_Management_Software.Infrastructure.Repository
+@using Inventory_Management_Software.Pages.Dialogs
 
 @inject IEfRepository<Vendor> VendorRepository
+@inject IDialogService DialogService
 
 <h3>VendorsPage</h3>
 
 
 <MudPaper Class="d-flex mb-2 justify-end flex-grow-1 gap-4" Elevation="0">
-    <MudButton Variant="Variant.Outlined">Vendor</MudButton>
+    <MudButton Variant="Variant.Outlined" OnClick="@(AddVendor)">Vendor</MudButton>
 </MudPaper>
 <MudTable Items="@Elements" @bind-SelectedItem="@_selectedItem">
     <HeaderContent>
@@ -46,6 +48,19 @@
     protected override async Task OnInitializedAsync()
     {
         Elements = await VendorRepository.ListAllAsync();
+    }
+    
+    private async Task AddVendor()
+    {
+        var dialog = await DialogService.ShowAsync < AddVendorDialog>("Add Vendor");
+        var newProduct = await dialog.Result;
+
+        if (newProduct != null)
+        {
+            Elements = await VendorRepository.ListAllAsync();
+            StateHasChanged();
+        }
+        
     }
     
     

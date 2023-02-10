@@ -9,6 +9,11 @@ public class Vendor : GuidEntity
 
     public string Website { get; set; }
 
-    public ICollection<Product> Products { get; set; } 
+    public ICollection<Product> Products { get; set; }
+
+    public Vendor()
+    {
+        Id = Guid.NewGuid();
+    }
 
 }

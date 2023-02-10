@@ -3,7 +3,7 @@
 @using Inventory_Management_Software.Core.Entities
 @using Inventory_Management_Software.Pages.Dialogs
 
-@inject  IEfRepository<Product> _productRepository
+@inject  IEfRepository<Product> ProductRepository
 @inject IDialogService DialogService;
 <h3>Products</h3>
 
@@ -44,7 +44,7 @@
     
     protected override async Task OnInitializedAsync()
     {
-        Elements = await _productRepository.ListAllAsync();
+        Elements = await ProductRepository.ListAllAsync();
     }
     
     private async Task AddProduct()
@@ -54,7 +54,7 @@
         
         if (newProduct != null)
         {
-            Elements = await _productRepository.ListAllAsync();
+            Elements = await ProductRepository.ListAllAsync();
             StateHasChanged();
         }
     }
