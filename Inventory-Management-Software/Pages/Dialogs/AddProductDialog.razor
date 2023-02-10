@@ -1,14 +1,58 @@
 @using Inventory_Management_Software.Pages.Dialogs
+@using Inventory_Management_Software.Core.Entities
+@using Inventory_Management_Software.Infrastructure.Repository
 
+@inject ISnackbar Snackbar
+
+@inject IEfRepository<Product> ProductRepository
 
 <h3>AddProductDialog</h3>
 
 <MudDialog>
     <TitleContent>
-        <MudText Typo="Typo.h6"></MudText>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1"/>
+            Add New Product?
+        </MudText>
     </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="Product.SKU" Label="Product SKU"  Immediate="true" Variant="Variant.Outlined" InputType="InputType.Text" />
+        <MudTextField @bind-Value="Product.Name" Label="Product Name" Immediate="true" Variant="Variant.Outlined" InputType="InputType.Text"/>
+        <MudTextField @bind-Value="Product.Description" Label="Description" Variant="Variant.Outlined" Lines="5"  Immediate="true" InputType="InputType.Text"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@(() => Cancel())">Cancel</MudButton>
+        <MudButton OnClick="@(() => Save())" Color="Color.Success">Finish</MudButton>
+    </DialogActions>
 </MudDialog>
 
 @code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public Product Product { get; set; } = new();
     
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+    
+    private async Task Save()
+    {
+        try
+        {
+            await ProductRepository.AddAsync(Product);
+            Snackbar.Add("Product Added", Severity.Success);
+            MudDialog.Close(DialogResult.Ok(Product));
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
+            return;
+        }
+        
+    }
+    
+    
+
 }
