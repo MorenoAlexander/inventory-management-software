@@ -1,0 +1,54 @@
+@using Inventory_Management_Software.Core.Entities
+@using Inventory_Management_Software.Infrastructure.Repository
+<h3>AddVendor</h3>
+
+@inject ISnackbar Snackbar
+@inject IEfRepository<Vendor> VendorRepository
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1"/>
+            Add New Product?
+        A</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="Vendor.Name" Label="Vendor Name"  Immediate="true" Variant="Variant.Outlined" InputType="InputType.Text" />
+        <MudTextField @bind-Value="Vendor.Website" Label="Website" Immediate="true" Variant="Variant.Outlined" InputType="InputType.Url"/>
+        <MudTextField @bind-Value="Vendor.Description" Label="Description" Variant="Variant.Outlined" Lines="5"  Immediate="true" InputType="InputType.Text"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@(() => Cancel())">Cancel</MudButton>
+        <MudButton OnClick="@(() => Save())" Color="Color.Success">Finish</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public Vendor Vendor { get; set; } = new();
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private async Task Save()
+    {
+        try
+        {
+
+            await VendorRepository.AddAsync(Vendor);
+            Snackbar.Add("Vendor Added", Severity.Success);
+            MudDialog.Close(DialogResult.Ok(Vendor));
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
+            return;
+        }
+    }
+    
+}

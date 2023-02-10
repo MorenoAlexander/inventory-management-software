@@ -2,14 +2,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Inventory_Management_Software.Data;
 using Inventory_Management_Software.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using Inventory_Management_Software.Infrastructure.Data;
 using MudBlazor.Services;
+
+string swaggerBasePath = "api";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,10 +27,13 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddMudServices();
-builder.Services.AddDataServices(builder.Configuration.GetConnectionString("Default") ?? "Server=(localDb)\\MSSQLLocalDB;");
+builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -40,6 +41,16 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+    app.UseSwagger(c =>
+    {
+        c.RouteTemplate = swaggerBasePath+"/swagger/{documentName}/swagger.json";
+    });
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint($"/{swaggerBasePath}/swagger/v1/swagger.json", "My API V1");
+        c.RoutePrefix = $"{swaggerBasePath}/swagger";
+    });
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
