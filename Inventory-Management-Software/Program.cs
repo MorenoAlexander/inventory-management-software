@@ -5,6 +5,7 @@ using Microsoft.Identity.Web.UI;
 using Inventory_Management_Software.Data;
 using Inventory_Management_Software.Infrastructure;
 using Inventory_Management_Software.Infrastructure.Data;
+using Microsoft.OpenApi.Models;
 using MudBlazor.Services;
 
 string swaggerBasePath = "api";
@@ -27,29 +28,33 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddMudServices();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Inventory Management API", Version = "v1" });
+});
+#region Services
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
+#endregion
 var app = builder.Build();
+
+
 
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-    app.UseSwagger(c =>
-    {
-        c.RouteTemplate = swaggerBasePath+"/swagger/{documentName}/swagger.json";
-    });
+    app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint($"/{swaggerBasePath}/swagger/v1/swagger.json", "My API V1");
-        c.RoutePrefix = $"{swaggerBasePath}/swagger";
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Inventory Management API V1");
     });
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
     app.UseDeveloperExceptionPage();
 }
 
