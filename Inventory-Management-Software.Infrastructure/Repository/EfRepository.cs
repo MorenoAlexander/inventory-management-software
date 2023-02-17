@@ -1,44 +1,14 @@
+using Inventory_Management_Software.Core.Entities;
+using Inventory_Management_Software.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory_Management_Software.Infrastructure.Repository;
 
-public class EfRepository<T> : IEfRepository<T> where T : class, new() 
+public class EfRepository<T> : EfReadOnlyRepository<T>,IEfRepository<T> where T : class, new()
 {
-    private readonly DbContext _context;
     
-    public EfRepository(GenericIMSContext context)
+     public EfRepository(GenericIMSContext context) : base(context)
     {
-        _context = context;
-    }
-
-    public virtual ValueTask<T?> GetByIdAsync(Guid id)
-    {
-        return _context.Set<T>().FindAsync(id);
-    }
-
-    public virtual ValueTask<T?> GetByIdAsync(int id)
-    {
-        return _context.Set<T>().FindAsync(id);
-    }
-
-    public virtual T? GetById(Guid id)
-    {
-        return _context.Set<T>().Find(id);
-    }
-
-    public virtual T? GetById(int id)
-    {
-        return _context.Set<T>().Find(id);
-    }
-
-    public virtual Task<List<T>> ListAllAsync()
-    {
-        return _context.Set<T>().ToListAsync();
-    }
-
-    public virtual List<T> ListAll()
-    {
-        return _context.Set<T>().ToList();
     }
 
     public virtual Task AddAsync(T entity)
@@ -76,10 +46,5 @@ public class EfRepository<T> : IEfRepository<T> where T : class, new()
     {
         _context.Set<T>().Remove(entity);
         _context.SaveChanges();
-    }
-
-    public IQueryable<T> AsQueryable()
-    {
-        return _context.Set<T>().AsQueryable();
     }
 }
