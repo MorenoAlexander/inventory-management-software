@@ -19,5 +19,6 @@ public static class ConfigureDataServices
         }, 10);
 
         serviceCollection.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
+        serviceCollection.AddScoped(typeof(IEfReadOnlyRepository<>), typeof(EfReadOnlyRepository<>));
     }
 }
