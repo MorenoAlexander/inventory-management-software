@@ -1,7 +1,6 @@
 @using Inventory_Management_Software.Core.Entities
 @using Inventory_Management_Software.Core.Interfaces
 @using Inventory_Management_Software.Infrastructure.Repository
-<h3>AddVendor</h3>
 
 @inject ISnackbar Snackbar
 @inject IEfRepository<Vendor> VendorRepository
@@ -10,8 +9,8 @@
     <TitleContent>
         <MudText Typo="Typo.h6">
             <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1"/>
-            Add New Product?
-        A</MudText>
+            Add New Vendor
+        </MudText>
     </TitleContent>
     <DialogContent>
         <MudTextField @bind-Value="Vendor.Name" Label="Vendor Name"  Immediate="true" Variant="Variant.Outlined" InputType="InputType.Text" />
