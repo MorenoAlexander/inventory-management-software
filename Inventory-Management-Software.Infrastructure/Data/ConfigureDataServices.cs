@@ -1,3 +1,4 @@
+using Inventory_Management_Software.Core.Interfaces;
 using Inventory_Management_Software.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,11 +13,12 @@ public static class ConfigureDataServices
     {
         OracleConfiguration.TnsAdmin = config.GetSection("OracleConfiguration")["TnsAdmin"];
         OracleConfiguration.WalletLocation = config.GetSection("OracleConfiguration")["WalletLocation"];
-        serviceCollection.AddDbContext<GenericIMSContext>(options =>
+        serviceCollection.AddDbContextPool<GenericIMSContext>(options =>
         {
             options.UseOracle(config.GetConnectionString("Default"));
-        });
+        }, 10);
 
         serviceCollection.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
+        serviceCollection.AddScoped(typeof(IEfReadOnlyRepository<>), typeof(EfReadOnlyRepository<>));
     }
 }
