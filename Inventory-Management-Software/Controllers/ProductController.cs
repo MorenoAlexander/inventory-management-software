@@ -1,5 +1,7 @@
 using Inventory_Management_Software.Core.Entities;
 using Inventory_Management_Software.Core.Interfaces;
+using Inventory_Management_Software.DTOS;
+using Inventory_Management_Software.Extensions;
 using Inventory_Management_Software.Infrastructure;
 using Inventory_Management_Software.Infrastructure.Repository;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +15,7 @@ namespace Inventory_Management_Software.Controllers;
 [ApiController]
 public class ProductController : ControllerBase
 {
-    private ILogger<Product> _logger;
+    private readonly ILogger<Product> _logger;
     private readonly IEfRepository<Product> _productRepository;
 
 
@@ -59,6 +61,32 @@ public class ProductController : ControllerBase
             _logger.LogError(e, "An error occurred while fetching product");
             throw;
         }
+    }
+
+    [HttpPut("{id}")]
+    public ActionResult Put(Guid id, [FromBody] NewProductDto product)
+    {
+        try
+        {
+            var productToUpdate = _productRepository.GetById(id);
+
+            if (productToUpdate == null)
+            {
+                return NotFound();
+            }
+
+
+            productToUpdate.UpdateFromDto(product);
+            _productRepository.Update(productToUpdate);
+
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Failed to update product {Guid}", id);
+            throw;
+        }
+        
     }
     
     
