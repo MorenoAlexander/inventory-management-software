@@ -6,11 +6,11 @@ namespace Inventory_Management_Software.Extensions;
 
         public static void UpdateFromDto(this Product product, NewProductDto dto)
         {
-            product.SKU = dto.SKU;
-            product.Name = dto.Name;
-            product.Description = dto.Description;
-            product.Price = dto.Price;
-            product.Cost = dto.Cost;
-            product.ManufacturerSuggestedRetailPrice = dto.MSRP;
+            product.SKU = dto.SKU ?? product.SKU;
+            product.Name = dto.Name ?? product.Name;
+            product.Description = dto.Description ?? product.Description;
+            product.Price = dto.Price ?? product.Price;
+            product.Cost = dto.Cost ?? product.Cost;
+            product.ManufacturerSuggestedRetailPrice = dto.MSRP ?? product.ManufacturerSuggestedRetailPrice;
         } 
     }
