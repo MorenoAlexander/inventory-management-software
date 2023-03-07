@@ -62,6 +62,26 @@ public class ProductController : ControllerBase
             throw;
         }
     }
+    
+    
+    [HttpPost]
+    public ActionResult Put([FromBody] NewProductDto product)
+    {
+        try
+        {
+
+            var newProduct = product.NewProductFromDto();
+            _productRepository.Add(newProduct);
+
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Failed to create new product {Name}",product.Name ?? "unknown");
+            throw;
+        }
+        
+    }
 
     [HttpPut("{id}")]
     public ActionResult Put(Guid id, [FromBody] NewProductDto product)
